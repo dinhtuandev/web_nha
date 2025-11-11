@@ -16,4 +16,5 @@ echo $stmt->execute() ? '{"status":"success"}' : '{"status":"fail"}';
   "cachdung":"Uống sau ăn",
   "madm":1,
   "madv":1
+đây là sửa code 
 } -->

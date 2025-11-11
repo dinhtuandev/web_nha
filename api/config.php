@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // ✅ Cấu hình thông tin kết nối
 $host = "localhost";
 $user = "root";
-$pass = "";
+$pass = "123456";
 $dbname = "qlthuocankhangca1";
 
 // ✅ Kết nối MySQL
