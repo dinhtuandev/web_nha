@@ -1,0 +1,4 @@
+giải nén rồi ném vào folder xampp/httdocs
+
+load database lên xampp rồi vào đường dẫn sau
+http://localhost:8080/qlthuocankhangca1/web/index.html (8080 là port bên apache, có thể chỉnh lại theo cổng apache theo ý mình)

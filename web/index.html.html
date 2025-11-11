@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Nhà Thuốc An Khang</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        h2 {
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+            color: #0056b3;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .section {
+            background-color: #fdfdfd;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input, select, textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>💊 Quản Lý Nhà Thuốc An Khang</h1>
+
+        <div class="grid-container">
+            <div class="section">
+                <h2>Quản lý Danh mục</h2>
+                <form id="add-danhmuc-form">
+                    <input type="text" id="madm" placeholder="Mã danh mục" required>
+                    <input type="text" id="tendm" placeholder="Tên danh mục mới" required>
+                    <button type="submit">Thêm Danh mục</button>
+                </form>
+                <table id="danhmuc-table">
+                    <thead>
+                        <tr>
+                            <th>Mã DM</th>
+                            <th>Tên Danh mục</th>
+                        </tr>
+                    </thead>
+                    <tbody id="danhmuc-list"></tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>Quản lý Nhân viên</h2>
+                <form id="add-nhanvien-form">
+                    <input type="text" id="hoten" placeholder="Họ tên" required>
+                    <select id="gt" required>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                        <option value="Khác">Khác</option>
+                    </select>
+                    <input type="date" id="ns" placeholder="Ngày sinh" required>
+                    <input type="date" id="ngayvl" placeholder="Ngày vào làm" required>
+                    <button type="submit">Thêm Nhân viên</button>
+                </form>
+                 <p><em>(Lưu ý: Chức năng hiển thị danh sách nhân viên cần file get_nhanvien.php)</em></p>
+            </div>
+
+            <div class="section">
+                <h2>Quản lý Sản phẩm</h2>
+                <form id="add-sanpham-form">
+                    <input type="text" id="tensp" placeholder="Tên sản phẩm" required>
+                    <input type="number" id="giaban" placeholder="Giá bán" required>
+                    <input type="number" id="giamgia-sp" placeholder="Giảm giá (%)" required>
+                    <input type="text" id="hinhnsp" placeholder="URL hình ảnh">
+                    <textarea id="congdung" placeholder="Công dụng"></textarea>
+                    <input type="text" id="xuatsu" placeholder="Xuất xứ">
+                    <textarea id="cachdung" placeholder="Cách dùng"></textarea>
+                    <input type="number" id="madm-sp" placeholder="Mã danh mục (madm)" required>
+                    <input type="number" id="madv-sp" placeholder="Mã đơn vị (madv)" required>
+                    <button type="submit">Thêm Sản phẩm</button>
+                </form>
+                 <p><em>(Lưu ý: Chức năng hiển thị danh sách sản phẩm cần file get_sanpham.php)</em></p>
+            </div>
+
+            <div class="section">
+                <h2>Quản lý Đơn hàng</h2>
+                <form id="add-donhang-form">
+                    <input type="number" id="giamgia-dh" placeholder="Giảm giá (%)" required>
+                    <input type="number" id="manv-dh" placeholder="Mã nhân viên (manv)" required>
+                    <button type="submit">Tạo Đơn hàng</button>
+                </form>
+                <table id="donhang-table">
+                    <thead>
+                        <tr>
+                            <th>Số ĐH</th>
+                            <th>Ngày tạo</th>
+                            <th>Giảm giá (%)</th>
+                            <th>Nhân viên</th>
+                        </tr>
+                    </thead>
+                    <tbody id="donhang-list"></tbody>
+                </table>
+            </div>
+
+             <div class="section">
+                <h2>Quản lý Chi tiết Đơn hàng</h2>
+                <form id="add-chitietdh-form">
+                    <input type="number" id="sodh-ct" placeholder="Số đơn hàng (sodh)" required>
+                    <input type="number" id="masp-ct" placeholder="Mã sản phẩm (masp)" required>
+                    <input type="number" id="sl-ct" placeholder="Số lượng" required>
+                    <input type="number" id="gia-ct" placeholder="Giá bán" required>
+                    <button type="submit">Thêm vào Đơn hàng</button>
+                </form>
+                <table id="chitietdh-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Số ĐH</th>
+                            <th>Tên Sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Giá</th>
+                        </tr>
+                    </thead>
+                    <tbody id="chitietdh-list"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const API_BASE_URL = '../api'; // Thư mục chứa các file PHP
+
+            // Hàm POST dữ liệu chung
+            const postData = async (url, data) => {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    const result = await response.json();
+                    if (result.status === 'success') {
+                        alert('Thao tác thành công!');
+                        return true;
+                    } else {
+                        alert('Thao tác thất bại!');
+                        console.error('Lỗi từ server:', result);
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('Lỗi khi gửi request:', error);
+                    alert('Đã xảy ra lỗi. Vui lòng kiểm tra console.');
+                    return false;
+                }
+            };
+
+            // ---- QUẢN LÝ DANH MỤC ----
+            const danhmucList = document.getElementById('danhmuc-list');
+            const addDanhmucForm = document.getElementById('add-danhmuc-form');
+
+            const loadDanhmuc = async () => {
+                const response = await fetch(`${API_BASE_URL}/get_danhmuc.php`);
+                const data = await response.json();
+                danhmucList.innerHTML = '';
+                data.forEach(item => {
+                    danhmucList.innerHTML += `<tr><td>${item.madm}</td><td>${item.tendm}</td></tr>`;
+                });
+            };
+
+            addDanhmucForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const tendm = document.getElementById('tendm').value;
+                const success = await postData(`${API_BASE_URL}/post_danhmuc.php`, { tendm });
+                if (success) {
+                    addDanhmucForm.reset();
+                    loadDanhmuc();
+                }
+            });
+
+            // ---- QUẢN LÝ NHÂN VIÊN ----
+            const addNhanvienForm = document.getElementById('add-nhanvien-form');
+            addNhanvienForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const data = {
+                    hoten: document.getElementById('hoten').value,
+                    gt: document.getElementById('gt').value,
+                    ns: document.getElementById('ns').value,
+                    ngayvl: document.getElementById('ngayvl').value
+                };
+                const success = await postData(`${API_BASE_URL}/post_nhanvien.php`, data);
+                if (success) addNhanvienForm.reset();
+            });
+
+            // ---- QUẢN LÝ SẢN PHẨM ----
+            const addSanphamForm = document.getElementById('add-sanpham-form');
+            addSanphamForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const data = {
+                    tensp: document.getElementById('tensp').value,
+                    giaban: parseFloat(document.getElementById('giaban').value),
+                    giamgia: parseFloat(document.getElementById('giamgia-sp').value),
+                    hinhnsp: document.getElementById('hinhnsp').value,
+                    congdung: document.getElementById('congdung').value,
+                    xuatsu: document.getElementById('xuatsu').value,
+                    cachdung: document.getElementById('cachdung').value,
+                    madm: parseInt(document.getElementById('madm-sp').value),
+                    madv: parseInt(document.getElementById('madv-sp').value)
+                };
+                 const success = await postData(`${API_BASE_URL}/post_sanpham.php`, data);
+                 if(success) addSanphamForm.reset();
+            });
+
+            // ---- QUẢN LÝ ĐƠN HÀNG ----
+            const donhangList = document.getElementById('donhang-list');
+            const addDonhangForm = document.getElementById('add-donhang-form');
+
+            const loadDonhang = async () => {
+                const response = await fetch(`${API_BASE_URL}/get_donhang.php`);
+                const data = await response.json();
+                donhangList.innerHTML = '';
+                data.forEach(item => {
+                    donhangList.innerHTML += `<tr>
+                        <td>${item.sodh}</td>
+                        <td>${new Date(item.ngaytao).toLocaleString('vi-VN')}</td>
+                        <td>${item.giamgia}</td>
+                        <td>${item.hoten}</td>
+                    </tr>`;
+                });
+            };
+
+            addDonhangForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const data = {
+                    giamgia: parseFloat(document.getElementById('giamgia-dh').value),
+                    manv: parseInt(document.getElementById('manv-dh').value)
+                };
+                const success = await postData(`${API_BASE_URL}/post_donhang.php`, data);
+                if (success) {
+                    addDonhangForm.reset();
+                    loadDonhang();
+                }
+            });
+            
+             // ---- QUẢN LÝ CHI TIẾT ĐƠN HÀNG ----
+            const chitietdhList = document.getElementById('chitietdh-list');
+            const addChitietdhForm = document.getElementById('add-chitietdh-form');
+
+            const loadChitietdh = async () => {
+                const response = await fetch(`${API_BASE_URL}/get_chitietdh.php`);
+                const data = await response.json();
+                chitietdhList.innerHTML = '';
+                data.forEach(item => {
+                    chitietdhList.innerHTML += `<tr>
+                        <td>${item.id}</td>
+                        <td>${item.sodh}</td>
+                        <td>${item.tensp}</td>
+                        <td>${item.sl}</td>
+                        <td>${item.gia.toLocaleString('vi-VN')} VNĐ</td>
+                    </tr>`;
+                });
+            };
+
+            addChitietdhForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const data = {
+                    sodh: parseInt(document.getElementById('sodh-ct').value),
+                    masp: parseInt(document.getElementById('masp-ct').value),
+                    sl: parseInt(document.getElementById('sl-ct').value),
+                    gia: parseFloat(document.getElementById('gia-ct').value)
+                };
+                const success = await postData(`${API_BASE_URL}/post_chitietdh.php`, data);
+                if (success) {
+                    addChitietdhForm.reset();
+                    loadChitietdh();
+                }
+            });
+
+            // Tải dữ liệu ban đầu khi trang được mở
+            loadDanhmuc();
+            loadDonhang();
+            loadChitietdh();
+        });
+    </script>
+
+</body>
+</html>
